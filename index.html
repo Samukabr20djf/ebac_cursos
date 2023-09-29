@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Js_Html</title>
+    <title>Calculadora de médias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
 </head>
-<link rel="stylesheet" href="./main.css">
 <body>
     <div class="container">
-        <h1>Sam banking</h1>
-        <h2>Empréstimo pessoal</h2>
-        <form>
-            <p class="error-message">O nome prescisa ser completo!!</p>
-            <input type="text" required placeholder="Nome Completo" />
-            <input type="number" required placeholder="Numero da Conta" />
-            <input type="number" required placeholder="Valor do Empréstimo" />
-            <button id="btn-efetuar" type="submit">Efetuar</button>
+        <header>
+            <img src="./imagens.projeto/logo.png" alt="capelo e diploma">
+            <h1>Calculadora de médias</h1>
+        </header>
+        <form id="form-atividade">
+            <input type="text" id="Nome-Atividade"  placeholder="nome da Matéria" required/>
+            <input type="number" id="Nota-Atividade" placeholder="nota" min="0" max="10" required/>
+            <button type="submit">adicionar +</button>
         </form>
-        <p class="success-message"></p>
+        <table cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Nome da atividade</th>
+                    <th>Nota da atividade</th>
+                    <th>Aprovado?</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Média final</td>
+                    <td id="media-final-valor">...</td>
+                    <td id="media-final-resultado">...</td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
     <script src="./main.js"></script>
 </body>
