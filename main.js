@@ -1,46 +1,71 @@
-const form = document.getElementById('form-emprestimo');
-const nomeCompleto = document.getElementById('nome-Completo');
-const mensagemSucesso = document.getElementById('mensagem-Sucesso');
-let formEValido = false
+const form = document.getElementById('form-atividade');
+const imgAprovado = ' <img src="./imagens.projeto/aprovado.png" alt="Emoji celebrando"/>'
+const imgReprovado = ' <img src="./imagens.projeto/reprovado.png" alt="Emoji triste"/>'
+const spanAprovado = '<span class="resultado aprovado" >Aprovado</span>';
+const spanReprovado = '<span class="resultado reprovado" >Reprovado</span>';
+const notaMinima = parseFloat(prompt("digite a nota minima"));
 
-function validaNome(nomeCompleto) {
-    const nomecomoArray = nomeCompleto.split(' ');
-    return nomecomoArray.length >= 2;
-}
+const atividade = [];
+const notas = [];
+
+let linhas = '';
 
 form.addEventListener('submit', function(e){
     e.preventDefault();
+    
+    AdicionarLinha();
+    AtualizarTabela();
+    AtualizaMediaFinal();
 
-    const numeroConta = document.getElementById('numero-Conta');
-    const valorEmprestimo = document.getElementById('valor-emprestimo');
-    const mensagemSucesso = `O valor de: <b>${valorEmprestimo.value}</b> Foi adicionado a sua conta!! <b>${nomeCompleto}</b> - conta <b>${numeroConta}</b>`;
+});
 
-    formEValido = validaNome(nomeCompleto.value)
-    if (formEValido) {
-        const mensagemSucesso = document.querySelector('.success-message');
-        containerMensagemSucesso.innerHtml = mensagemSucesso;
-        containerMensagemSucesso.style.display = 'block';
+function AdicionarLinha() {
 
-        nomeCompleto.value = '';
-        numeroConta.value = '';
-        valorEmprestimo.value = '';
-    } else {
-        nomeCompleto.style.border = '1px solid red';
-        document.querySelector('.error-message').style.display = 'block';
+    const inputNomeAtividade = document.getElementById('Nome-Atividade');
+    const inputNotaAtividade = document.getElementById('Nota-Atividade');
+
+    if (atividade.includes(inputNomeAtividade.value)) {
+        alert(`a atividades ${inputNomeAtividade.value} ja foi adicionada !`);
+    }else {
+    
+        atividade.push(parseFloat(inputNomeAtividade.value));
+        notas.push(parseFloat(inputNotaAtividade.value));
+
+    let linha = '<tr>';
+    linha += `<td>${inputNomeAtividade.value}</td>`;
+    linha += `<td>${inputNotaAtividade.value}</td>`;
+    linha += `<td>${inputNotaAtividade.value >= notaMinima ? imgAprovado : imgReprovado } </td>`;
+    linha += '</tr>';
+
+    linhas += linha;
     }
-})
-
-nomeCompleto.addEventListener('keyup', function(e) {
-        console.log(e.target.value);
-        formEValido = validaNome(e.target.value);
     
-        if (!formEValido) {
-            nomeCompleto.classList.add('error');
-            document.querySelector('.error-message').style.display = 'block';
-        } else {
-            nomeCompleto.classList.remove('error');
-            document.querySelector('.error-message').style.display = 'none';
-        }
-    })
-
+    inputNomeAtividade.value = '';
+    inputNotaAtividade.value = '';
     
+}
+
+
+function AtualizarTabela() {
+    
+    const corpoTabela = document.querySelector('tbody');
+    corpoTabela.innerHTML = linhas;
+
+}
+
+function AtualizaMediaFinal(){
+    
+    const MediaFinal = calculaMediaFinal();
+    document.getElementById('media-final-valor').innerHTML = MediaFinal;
+    document.getElementById('media-final-resultado').innerHTML =  MediaFinal >= notaMinima ?  spanAprovado :spanReprovado;
+}
+
+function calculaMediaFinal(){
+    
+    let somaDasNotas = 0;
+
+    for (let i = 0; i < notas.length; i++) {
+        somaDasNotas += notas[i];
+    }
+    return somaDasNotas / notas.length;
+}
